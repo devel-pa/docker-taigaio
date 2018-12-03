@@ -73,8 +73,8 @@ taigaConfiguration() {
     fi
     echo "" > "$LOCAL_PY"
     # TODO Add support for themes and that stuff
-    mkdir -p /home/taiga/taiga-front/dist
-cat <<EOF > /home/taiga/taiga-front/dist/conf.json
+    mkdir -p /home/taiga/taiga-front-dist/dist
+cat <<EOF > /home/taiga/taiga-front-dist/dist/conf.json
 {
     "api": "$SCHEMA://$EXTERNAL_HOST:$EXTERNAL_PORT/api/v1/",
     "eventsUrl": "ws://$EXTERNAL_HOST:$EXTERNAL_EVENTS_PORT/events",
@@ -102,7 +102,7 @@ cat <<EOF > /home/taiga/taiga-events/config.json
 }
 }
 EOF
-    chown taiga: -R "$LOCAL_PY" /home/taiga/taiga-events/config.json /home/taiga/taiga-front/dist
+    chown taiga: -R "$LOCAL_PY" /home/taiga/taiga-events/config.json /home/taiga/taiga-front-dist/dist
     local VALUE="{
     'default': {
         'ENGINE': '$DB_TYPE',
@@ -149,7 +149,7 @@ EOF
 configureHttps() {
     if [ "$HTTPS_ENABLED" == "True" ] || [ "$HTTPS_ENABLED" == "true" ]; then
         mv /includes/taiga-https /etc/nginx/sites-enabled/taiga
-        sed -i 's|http://|https://|g' /home/taiga/taiga-front/dist/conf.json
+        sed -i 's|http://|https://|g' /home/taiga/taiga-front-dist/dist/conf.json
         sed -i 's|http://|https://|g' "$LOCAL_PY"
     fi
 }
@@ -193,7 +193,7 @@ runMigration() {
     su taiga -c "source /home/taiga/.virtualenvs/taiga/bin/activate;cd /home/taiga/taiga-back;python /home/taiga/taiga-back/manage.py collectstatic --noinput"
 }
 generateFrontFiles() {
-    su taiga -c "cd /home/taiga/taiga-front;gulp deploy"
+    su taiga -c "cd /home/taiga/taiga-front-dist;gulp deploy"
 }
 
 configureHttps
