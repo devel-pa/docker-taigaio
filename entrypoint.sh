@@ -176,7 +176,7 @@ databaseSetup() {
 }
 rabbitmqSetup() {
     rabbitmqctl -n "$RABBITMQ_USER@$RABBITMQ_HOST" delete_user guest 2> /dev/null || :
-    rabbitmqctl -n "$RABBITMQ_USER@$RABBITMQ_HOST" add_user "$RABBITMQ_USERNAME" "$RABBITMQ_PASS" 2> /dev/null || :
+    rabbitmqctl -n "$RABBITMQ_USER@$RABBITMQ_HOST" add_user "$RABBITMQ_USER" "$RABBITMQ_PASS" 2> /dev/null || :
     rabbitmqctl -n "$RABBITMQ_USER@$RABBITMQ_HOST" set_user_tags "$RABBITMQ_USER" administrator 2> /dev/null || :
     rabbitmqctl -n "$RABBITMQ_USER@$RABBITMQ_HOST" set_permissions -p / "$RABBITMQ_USER" '.*' '.*' '.*' || :
     rabbitmqctl -n "$RABBITMQ_USER@$RABBITMQ_HOST" add_vhost taiga || :
