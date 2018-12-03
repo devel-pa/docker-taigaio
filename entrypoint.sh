@@ -120,7 +120,7 @@ EOF
     setConfigurationValue "CELERY_RESULT_BACKEND" "redis://$REDIS_HOST:$REDIS_HOST_PORT/0" "$LOCAL_PY"
     setConfigurationValue "BROKER_URL" "amqp://$RABBITMQ_USER:$RABBITMQ_PASS@$RABBITMQ_HOST:$RABBITMQ_HOST_PORT//" "$LOCAL_PY"
     setConfigurationValue "EVENTS_PUSH_BACKEND" "taiga.events.backends.rabbitmq.EventsPushBackend" "$LOCAL_PY"
-    setConfigurationValue "EVENTS_PUSH_BACKEND_OPTIONS" "{\"url\": \"amqp://$RABBITMQ_USER:$RABBITMQ_PASS@$RABBITMQ_HOST:$RABBITMQ_HOST_PORT/$RABBITMQ_VHOST\"}" "$LOCAL_PY" "array"
+    setConfigurationValue "EVENTS_PUSH_BACKEND_OPTIONS" "{\"url\": \"amqp://$RABBITMQ_USER:$RABBITMQ_PASS@$RABBITMQ_HOST:$RABBITMQ_HOST_PORT//$RABBITMQ_VHOST\"}" "$LOCAL_PY" "array"
     setConfigurationValue "MEDIA_URL" "http://$EXTERNAL_HOST/media/" "$LOCAL_PY"
     setConfigurationValue "STATIC_URL" "http://$EXTERNAL_HOST/static/" "$LOCAL_PY"
     setConfigurationValue "ADMIN_MEDIA_PREFIX" "http://$EXTERNAL_HOST/static/admin/" "$LOCAL_PY"
