@@ -192,15 +192,15 @@ runMigration() {
     fi
     su taiga -c "source /home/taiga/.virtualenvs/taiga/bin/activate;cd /home/taiga/taiga-back;python /home/taiga/taiga-back/manage.py collectstatic --noinput"
 }
-generateFrontFiles() {
-    su taiga -c "cd /home/taiga/taiga-front-dist;gulp deploy"
-}
+# generateFrontFiles() {
+#     su taiga -c "cd /home/taiga/taiga-front-dist;gulp deploy"
+# }
 
 configureHttps
 taigaConfiguration
 databaseSetup
 rabbitmqSetup
 runMigration
-generateFrontFiles
+# generateFrontFiles
 
 exec supervisord -n

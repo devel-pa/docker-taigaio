@@ -22,7 +22,7 @@ taigaio:
   ports:
     - "9980:80"
     - "9443:443"
-    - "9888:8888"
+    - "8888:8888"
   links:
     - database
     - rabbitmq
@@ -42,7 +42,7 @@ taigaio:
     SETTING_GITHUB_API_CLIENT_ID: ""
     SETTING_GITHUB_API_CLIENT_SECRET: ""
     INSERT_DEFAULT_DATA: "True"
-    SETTING_DEBUG: "false"
+    SETTING_DEBUG: "False"
     EXTERNAL_HOST: "192.168.0.11"
     EXTERNAL_PORT: "9980"
-    EXTERNAL_EVENTS_PORT: "9888"
+    EXTERNAL_EVENTS_PORT: "8888"
