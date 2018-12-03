@@ -1,5 +1,5 @@
 database:
-  image: "sameersbn/postgresql:9.4-12"
+  image: "sameersbn/postgresql:latest"
   environment:
     DB_NAME: "taigaio"
     DB_USER: "taigaio"
@@ -7,7 +7,7 @@ database:
   volumes:
     - "/opt/docker/taigaio/postgresql/data:/var/lib/postgresql:rw"
 rabbitmq:
-  image: "rabbitmq:3.5.5"
+  image: "rabbitmq:latest"
   hostname: taigaio-rabbit
   restart: always
   environment:
@@ -20,9 +20,9 @@ redis:
 taigaio:
   image: "quay.io/galexrt/taigaio:latest"
   ports:
-    - "80:80"
-    - "443:443"
-    - "8888:8888"
+    - "9980:80"
+    - "9443:443"
+    - "9888:8888"
   links:
     - database
     - rabbitmq
@@ -42,3 +42,7 @@ taigaio:
     SETTING_GITHUB_API_CLIENT_ID: ""
     SETTING_GITHUB_API_CLIENT_SECRET: ""
     INSERT_DEFAULT_DATA: "True"
+    SETTING_DEBUG: "false"
+    EXTERNAL_HOST: "192.168.0.11"
+    EXTERNAL_PORT: "9980"
+    EXTERNAL_EVENTS_PORT: "9888"
