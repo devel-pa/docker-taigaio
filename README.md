@@ -10,6 +10,13 @@ Image available from:
 [Taiga.Io](https://taiga.io/) in a Docker Image.
 
 ## Usage
+
+### Build local image
+
+```
+docker image build . -t local/taigaio:latest
+```
+
 ### Pulling the image
 From quay.io:
 ```
