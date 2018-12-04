@@ -113,27 +113,30 @@ EOF
         'PORT': '$DB_PORT',
     }
 }"
-    setConfigurationValue "from .development import *" "" "$LOCAL_PY" "literal"
-    setConfigurationValue "from .celery import *" "" "$LOCAL_PY" "literal"
-    setConfigurationValue "DATABASES" "$VALUE" "$LOCAL_PY" "array"
+    setConfigurationValue "from .common import *" "" "$LOCAL_PY" "literal"
+    setConfigurationValue "MEDIA_URL" "http://$EXTERNAL_HOST:$EXTERNAL_PORT/media/" "$LOCAL_PY"
+    setConfigurationValue "STATIC_URL" "http://$EXTERNAL_HOST:$EXTERNAL_PORT/static/" "$LOCAL_PY"
+
+    setConfigurationValue "SITES[\"front\"][\"scheme\"]" "http" "$LOCAL_PY"
+    setConfigurationValue "SITES[\"front\"][\"domain\"]" "$EXTERNAL_HOST" "$LOCAL_PY"
+
+    # setConfigurationValue "DATABASES" "$VALUE" "$LOCAL_PY" "array"
     setConfigurationValue "CELERY_ENABLED" "True" "$LOCAL_PY"
-    setConfigurationValue "CELERY_RESULT_BACKEND" "redis://$REDIS_HOST:$REDIS_HOST_PORT/0" "$LOCAL_PY"
-    setConfigurationValue "BROKER_URL" "amqp://$RABBITMQ_USER:$RABBITMQ_PASS@$RABBITMQ_HOST:$RABBITMQ_HOST_PORT//" "$LOCAL_PY"
+    # setConfigurationValue "CELERY_RESULT_BACKEND" "redis://$REDIS_HOST:$REDIS_HOST_PORT/0" "$LOCAL_PY"
+    # setConfigurationValue "BROKER_URL" "amqp://$RABBITMQ_USER:$RABBITMQ_PASS@$RABBITMQ_HOST:$RABBITMQ_HOST_PORT//" "$LOCAL_PY"
     setConfigurationValue "EVENTS_PUSH_BACKEND" "taiga.events.backends.rabbitmq.EventsPushBackend" "$LOCAL_PY"
-    setConfigurationValue "EVENTS_PUSH_BACKEND_OPTIONS" "{\"url\": \"amqp://$RABBITMQ_USER:$RABBITMQ_PASS@$RABBITMQ_HOST:$RABBITMQ_HOST_PORT//$RABBITMQ_VHOST\"}" "$LOCAL_PY" "array"
-    setConfigurationValue "MEDIA_URL" "http://$EXTERNAL_HOST/media/" "$LOCAL_PY"
-    setConfigurationValue "STATIC_URL" "http://$EXTERNAL_HOST/static/" "$LOCAL_PY"
-    setConfigurationValue "ADMIN_MEDIA_PREFIX" "http://$EXTERNAL_HOST/static/admin/" "$LOCAL_PY"
+    setConfigurationValue "EVENTS_PUSH_BACKEND_OPTIONS" "{\"url\": \"amqp://$RABBITMQ_USER:$RABBITMQ_PASS@$RABBITMQ_HOST:$RABBITMQ_HOST_PORT/$RABBITMQ_VHOST\"}" "$LOCAL_PY" "array"
+    
     unset SETTING_EVENTS_PUSH_BACKEND SETTING_EVENTS_PUSH_BACKEND_OPTIONS SETTINGS_BROKER_URL SETTING_CELERY_RESULT_BACKEND SETTING_MEDIA_URL SETTING_STATIC_URL SETTING_ADMIN_MEDIA_PREFIX
-    if [ "$FRONT_SITEMAP_ENABLED" != "True" ] || [ "$FRONT_SITEMAP_ENABLED" == "true" ]; then
-        setConfigurationValue "FRONT_SITEMAP_ENABLED" "True" "$LOCAL_PY"
-        setConfigurationValue "FRONT_SITEMAP_CACHE_TIMEOUT" "60*60" "$LOCAL_PY" "array"
-    fi
-    local SUPERUSERS="ADMINS = ("
-    echo "$ADMIN_USERS" | sed -n 1'p' | tr ';' '\n' | while read ADMIN_USER; do
-        SUPERUSERS="$SUPERUSERS\n    $ADMIN_USER,"
-    done
-    setConfigurationValue "$SUPERUSERS)" "" "$LOCAL_PY" "literal"
+    # if [ "$FRONT_SITEMAP_ENABLED" != "True" ] || [ "$FRONT_SITEMAP_ENABLED" == "true" ]; then
+    #     setConfigurationValue "FRONT_SITEMAP_ENABLED" "True" "$LOCAL_PY"
+    #     setConfigurationValue "FRONT_SITEMAP_CACHE_TIMEOUT" "60*60" "$LOCAL_PY" "array"
+    # fi
+    # local SUPERUSERS="ADMINS = ("
+    # echo "$ADMIN_USERS" | sed -n 1'p' | tr ';' '\n' | while read ADMIN_USER; do
+    #     SUPERUSERS="$SUPERUSERS\n    $ADMIN_USER,"
+    # done
+    # setConfigurationValue "$SUPERUSERS)" "" "$LOCAL_PY" "literal"
     SET_SETTINGS=($(env | sed -n -r "s/SETTING_([0-9A-Za-z_]*).*/\1/p"))
     for SETTING_KEY in "${SET_SETTINGS[@]}"; do
         KEY="SETTING_$SETTING_KEY"
