@@ -1,5 +1,5 @@
 database:
-  image: "sameersbn/postgresql:latest"
+  image: "sameersbn/postgresql:9.5"
   environment:
     DB_NAME: "taigaio"
     DB_USER: "taigaio"

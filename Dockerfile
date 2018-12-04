@@ -19,7 +19,7 @@ RUN useradd -m -d /home/taiga -s /bin/bash taiga && \
     apt-get install -y libxml2-dev libxslt-dev && \
     apt-get install -y libssl-dev libffi-dev && \
     apt-get install -y supervisor && \
-    apt-get install -y postgresql-contrib postgresql-server-dev-all && \
+    apt-get install -y postgresql-contrib-9.5 postgresql-server-dev-9.5 && \
     npm install -g coffee-script gulp bower && \
     mkdir -p /home/taiga/conf/ /home/taiga/logs && \
     mv -f /includes/etc/circus/conf.d /etc/circus && \
@@ -36,7 +36,7 @@ USER taiga
 RUN git clone https://github.com/taigaio/taiga-back.git /home/taiga/taiga-back && \
     cd /home/taiga/taiga-back && \
     git checkout stable  && \
-    bash -c "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh && mkvirtualenv -p /usr/bin/python3.5 taiga && pip install --upgrade pip setuptools && pip install -r requirements.txt" && \
+    bash -c "source /usr/share/virtualenvwrapper/virtualenvwrapper.sh && mkvirtualenv -p /usr/bin/python3 taiga && pip install --upgrade pip setuptools && pip install -r requirements.txt" && \
     git clone https://github.com/taigaio/taiga-front-dist.git /home/taiga/taiga-front-dist && \
     cd /home/taiga/taiga-front-dist && \
     git checkout stable && \
